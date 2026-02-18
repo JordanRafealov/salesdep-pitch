@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Growth Engine — SalesDep.ai — Dopamine Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0c0c14;
+  --card: #16162a;
+  --card-border: rgba(255,255,255,0.08);
+  --accent: #7c3aed;
+  --accent-glow: rgba(124, 58, 237, 0.15);
+  --green: #22c55e;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --blue: #3b82f6;
+  --cyan: #06b6d4;
+  --text: #f0f0f5;
+  --text-secondary: #a0a0b8;
+  --radius: 16px;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.deck { width: 100%; height: 100%; position: relative; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+  overflow-y: auto;
+  padding: 50px 40px 80px;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+.slide.center-v { align-items: center; }
+
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: transparent; }
+.slide::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 3px; }
+
+.slide-inner {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5 { font-family: 'Inter', sans-serif; font-weight: 700; line-height: 1.15; }
+h1 { font-size: 52px; letter-spacing: -0.02em; margin-bottom: 16px; text-wrap: balance; }
+h2 { font-size: 44px; letter-spacing: -0.02em; margin-bottom: 16px; text-align: center; }
+h3 { font-size: 28px; margin-bottom: 12px; }
+h4 { font-size: 22px; margin-bottom: 8px; font-weight: 600; }
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 8px;
+  text-align: center;
+}
+.subtitle { font-size: 22px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; font-weight: 400; text-align: center; }
+
+.playfair-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.text-secondary { color: var(--text-secondary); }
+.text-accent { color: var(--accent); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-amber { color: var(--amber); }
+.text-blue { color: var(--blue); }
+.text-cyan { color: var(--cyan); }
+strong { font-weight: 700; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 36px;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.card:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+.card-sm { padding: 24px; }
+.card-violet { border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.06); }
+.card-green { border-color: rgba(34,197,94,0.25); background: rgba(34,197,94,0.05); }
+.card-amber { border-color: rgba(245,158,11,0.25); background: rgba(245,158,11,0.05); }
+.card-blue { border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.05); }
+.card-cyan { border-color: rgba(6,182,212,0.25); background: rgba(6,182,212,0.05); }
+.card-red { border-color: rgba(239,68,68,0.25); background: rgba(239,68,68,0.05); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+
+.bullet-list { list-style: none; padding: 0; }
+.bullet-list li {
+  padding: 10px 0 10px 28px;
+  position: relative;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.bullet-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 18px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.bullet-list.green li::before { background: var(--green); }
+
+.proof-img {
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  display: block;
+  width: 100%;
+}
+
+.stat { text-align: center; padding: 28px 20px; }
+.stat .num { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
+.stat .label { font-size: 16px; color: var(--text-secondary); line-height: 1.4; }
+
+.flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  text-align: center;
+}
+.flow-box {
+  background: rgba(124,58,237,0.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+  flex: 1 1 0;
+  min-width: 0;
+  font-weight: 500;
+}
+.flow-box-green {
+  background: rgba(34,197,94,0.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+  flex: 1 1 0;
+  min-width: 0;
+  font-weight: 500;
+}
+.flow-box-amber {
+  background: rgba(245,158,11,0.1);
+  border-radius: 8px;
+  padding: 12px 14px;
+  flex: 1 1 0;
+  min-width: 0;
+  font-weight: 500;
+}
+.flow-arrow { color: var(--accent); font-size: 16px; flex-shrink: 0; }
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 2px;
+  margin: 0 auto 32px;
+}
+
+.glow-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(34,197,94,0.08) 100%);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(124,58,237,0.08);
+}
+
+/* Agent grid */
+.agent-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 300ms ease;
+}
+.agent-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(124,58,237,0.15);
+  transform: translateY(-2px);
+}
+.agent-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.agent-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.agent-role {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.agent-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.status-live { background: rgba(34,197,94,0.15); color: var(--green); }
+.status-ready { background: rgba(59,130,246,0.15); color: var(--blue); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-dot.pulse { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* Metric pill */
+.metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 100px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Timeline */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--green));
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+}
+.timeline-item h4 { font-size: 18px; margin-bottom: 6px; }
+.timeline-item p { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+/* Mono text */
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(12,12,20,0.92);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: all 200ms ease;
+  flex-shrink: 0;
+}
+.nav-dot.active { background: var(--accent); transform: scale(1.3); }
+.nav-counter {
+  position: fixed;
+  bottom: 54px;
+  right: 40px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  z-index: 100;
+  font-variant-numeric: tabular-nums;
+}
+
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+.mb-40 { margin-bottom: 40px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.small { font-size: 14px; }
+.muted { color: var(--text-secondary); opacity: 0.6; }
+
+.quote-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+}
+.quote-card p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.5;
+}
+.img-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .slide { padding: 40px 24px 80px; }
+  h1 { font-size: 40px; }
+  h2 { font-size: 36px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+  .flow-row { flex-wrap: wrap; }
+}
+@media (max-width: 640px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide center-v active" data-slide="1">
+<div class="slide-inner text-center" style="justify-content:center; min-height:100%; display:flex; flex-direction:column;">
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">DOPAMINE DIGITAL</p>
+  <h1 style="font-size:50px; margin-bottom:20px;">How <span class="text-accent">AI Infrastructure</span> Fills Your Pipeline</h1>
+  <p class="subtitle" style="max-width:740px; margin:0 auto 40px;">18 autonomous AI agents, automated pipelines, and intelligent systems &mdash; built for companies like SalesDep.ai that close deals but need more conversations</p>
+  <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:40px;">
+    <span class="metric-pill"><span class="text-accent" style="font-size:24px; font-weight:800;">18</span> AI Agents</span>
+    <span class="metric-pill"><span class="text-green" style="font-size:24px; font-weight:800;">24/7</span> Automation</span>
+    <span class="metric-pill"><span class="text-amber" style="font-size:24px; font-weight:800;">Multi-Channel</span> Outreach</span>
+  </div>
+  <p class="playfair-quote" style="max-width:550px; margin:0 auto 40px; font-size:20px;">Prepared for Olena Kleiner &mdash; SalesDep.ai</p>
+  <p class="small muted">February 2026</p>
+</div>
+</div>
+
+<!-- SLIDE 2: YOUR SITUATION -->
+<div class="slide" data-slide="2">
+<div class="slide-inner">
+  <p class="eyebrow">Where You Are Today</p>
+  <h2 class="mb-12">SalesDep.ai Has a <span class="text-red">Pipeline Problem</span>, Not a Product Problem</h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">When we last spoke in July 2025, the numbers told a clear story</p>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-green" style="font-size:56px;">40%</div>
+        <div class="label" style="font-size:17px;">Close rate from warm leads<br><span style="color:var(--green);">This is exceptional.</span> Most B2B companies close 10-20%.</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-red" style="font-size:56px;">0</div>
+        <div class="label" style="font-size:17px;">Meetings from 2,500 cold emails<br><span style="color:var(--red);">40% open rate, 15% click &mdash; but zero conversations.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="card card-sm text-center" style="padding:20px;">
+      <div class="stat" style="padding:12px 0;">
+        <div class="num text-amber" style="font-size:36px;">17K</div>
+        <div class="label">Leads in database<br>sitting unworked</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center" style="padding:20px;">
+      <div class="stat" style="padding:12px 0;">
+        <div class="num text-accent" style="font-size:36px;">1</div>
+        <div class="label">Person selling<br>Only Olena closing deals</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center" style="padding:20px;">
+      <div class="stat" style="padding:12px 0;">
+        <div class="num text-red" style="font-size:36px;">2/20</div>
+        <div class="label">Webinar attendees<br>showed up from 20 registered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <p class="text-secondary" style="font-size:18px; max-width:650px; margin:0 auto;">The product works. The close rate proves it. The only thing standing between SalesDep.ai and <strong class="text-green">$600K ARR</strong> is a reliable way to fill the calendar with qualified demos.</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 3: THE MATH -->
+<div class="slide" data-slide="3">
+<div class="slide-inner">
+  <p class="eyebrow">The Math</p>
+  <h2 class="mb-12">What <span class="text-green">25 Meetings a Month</span> Would Mean</h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Your close rate makes the growth equation simple</p>
+
+  <div class="card card-violet mb-24" style="padding:32px;">
+    <h4 class="text-center mb-20" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">Revenue Pipeline</h4>
+    <div class="flow-row mb-16" style="font-size:15px;">
+      <div class="flow-box" style="padding:16px;"><strong style="font-size:28px; display:block; margin-bottom:4px;">25</strong>Qualified<br>Meetings/Mo</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber" style="padding:16px;"><strong style="font-size:28px; display:block; margin-bottom:4px;">40%</strong>Your Close<br>Rate</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green" style="padding:16px;"><strong style="font-size:28px; display:block; margin-bottom:4px;">10</strong>New Clients<br>Per Month</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green" style="padding:16px;"><strong style="font-size:28px; display:block; margin-bottom:4px;">$7K</strong>LTV Per<br>Client</div>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="card card-green card-sm text-center">
+      <div class="stat">
+        <div class="num text-green" style="font-size:36px;">$70K</div>
+        <div class="label">Lifetime value added<br>per month of outreach</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-accent" style="font-size:36px;">$50K+</div>
+        <div class="label">Monthly recurring<br>within 6 months</div>
+      </div>
+    </div>
+    <div class="card card-amber card-sm text-center">
+      <div class="stat">
+        <div class="num text-amber" style="font-size:36px;">$600K</div>
+        <div class="label">ARR target<br>your stated goal</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <h3 style="font-size:28px; margin-bottom:12px;">The question isn't <em>can</em> you close. It's <span class="text-accent">who's filling the pipeline?</span></h3>
+    <p class="text-secondary" style="font-size:17px; max-width:600px; margin:0 auto;">That's what we built our entire AI infrastructure to solve.</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 4: AGENT FLEET OVERVIEW -->
+<div class="slide" data-slide="4">
+<div class="slide-inner">
+  <p class="eyebrow">The Fleet</p>
+  <h2 class="mb-12">18 AI Agents, <span class="text-accent">One Mission</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32">Each agent is a specialist. They run 24/7 on dedicated hardware, coordinated by a central governor.</p>
+
+  <div class="grid-3 mb-24">
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F3AF;</div>
+      <div class="agent-name">Cooper</div>
+      <div class="agent-role">Fleet Governor &amp; Escalation</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F50D;</div>
+      <div class="agent-name">Scout</div>
+      <div class="agent-role">Lead Research &amp; Enrichment</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F4E8;</div>
+      <div class="agent-name">Maverick</div>
+      <div class="agent-role">Campaign Manager</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F4EC;</div>
+      <div class="agent-name">Dash</div>
+      <div class="agent-role">Inbox Monitor &amp; Triage</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F3A4;</div>
+      <div class="agent-name">Echo</div>
+      <div class="agent-role">Content Engine</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F4CA;</div>
+      <div class="agent-name">Keenan</div>
+      <div class="agent-role">AI Sales Coach</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x2614;</div>
+      <div class="agent-name">Harbor</div>
+      <div class="agent-role">Client Onboarding</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F50E;</div>
+      <div class="agent-name">Sherlock</div>
+      <div class="agent-role">Deep Research</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F6E1;</div>
+      <div class="agent-name">Sentinel</div>
+      <div class="agent-role">Client Health Monitor</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x1F4DD;</div>
+      <div class="agent-name">Scribe</div>
+      <div class="agent-role">Call Summaries &amp; Notes</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x2615;</div>
+      <div class="agent-name">Pulse</div>
+      <div class="agent-role">Morning Briefs &amp; Intel</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-icon">&#x23F1;</div>
+      <div class="agent-name">Tempo</div>
+      <div class="agent-role">Team Performance Monitor</div>
+      <div class="agent-status status-live"><span class="status-dot pulse"></span> LIVE</div>
+    </div>
+  </div>
+
+  <p class="text-center text-secondary" style="font-size:15px;">+ 6 more specialized agents (Radar, Forge, Ledger, Atlas, Nexus, Aegis)</p>
+</div>
+</div>
+
+<!-- SLIDE 5: HOW THE AGENTS WORK -->
+<div class="slide" data-slide="5">
+<div class="slide-inner">
+  <p class="eyebrow">Architecture</p>
+  <h2 class="mb-12">How It All <span class="text-accent">Connects</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="card card-violet mb-24" style="padding:32px;">
+    <h4 class="text-center mb-20" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">Autonomous Pipeline Flow</h4>
+    <div class="flow-row mb-20">
+      <div class="flow-box"><strong>Scout</strong><br>Lead Research</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Enrichment</strong><br>Apollo + Clay</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Maverick</strong><br>Campaign Launch</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Dash</strong><br>Reply Triage</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Keenan</strong><br>Sales Coaching</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box-amber"><strong>Pulse</strong><br>Daily Briefing</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber"><strong>Sentinel</strong><br>Health Checks</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber"><strong>Tempo</strong><br>Team Metrics</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Cooper</strong><br>Governor</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Telegram</strong><br>Alerts to CEO</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-sm">
+      <h4 class="text-green mb-12">Self-Coordinating</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li>Agents communicate via Slack channels and shared context</li>
+        <li>Cooper audits the fleet every 15 minutes</li>
+        <li>Emergency escalation routes to Telegram in seconds</li>
+        <li>Staleness guards prevent stale data from persisting</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="text-accent mb-12">Always Running</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li>Dedicated Mac Mini server running 24/7</li>
+        <li>Each agent has its own personality, context, and permissions</li>
+        <li>Health checks every 15 min with auto-recovery</li>
+        <li>47% reduction in unnecessary runs via optimization</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 6: LEAD ENRICHMENT ENGINE -->
+<div class="slide" data-slide="6">
+<div class="slide-inner">
+  <p class="eyebrow">Lead Intelligence</p>
+  <h2 class="mb-12">AI-Powered <span class="text-accent">Lead Enrichment</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Every lead gets scored, verified, and enriched before a single email is sent</p>
+
+  <div class="card card-violet mb-24" style="padding:32px;">
+    <h4 class="text-center mb-20" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">Enrichment Waterfall</h4>
+    <div class="flow-row">
+      <div class="flow-box"><strong>Source</strong><br>Apollo, LinkedIn, Clay</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Dedup</strong><br>Remove duplicates</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Waterfall</strong><br>Multi-source verify</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber"><strong>Score</strong><br>ICP + DQS + Intent</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Distribute</strong><br>CRM + Campaigns</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-accent">A+</div>
+        <div class="label">ICP Score 80+<br>Intent Score 40+<br>Auto-prioritized</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-green">3x</div>
+        <div class="label">Data Sources<br>Apollo, Expandi, Domain<br>Waterfall verification</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-amber">5</div>
+        <div class="label">Scoring Dimensions<br>ICP, DQS, Intent<br>Company, Engagement</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 7: COLD EMAIL AT SCALE -->
+<div class="slide" data-slide="7">
+<div class="slide-inner">
+  <p class="eyebrow">Outreach Engine</p>
+  <h2 class="mb-12">Cold Email <span class="text-accent">at Scale</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="mb-24">
+    <img src="assets/instantly_campaigns.png" alt="Instantly campaign dashboard showing active campaigns, send volumes, and reply rates" class="proof-img">
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-sm">
+      <div class="stat">
+        <div class="num text-accent">15K+</div>
+        <div class="label">Emails Sent</div>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <div class="stat">
+        <div class="num text-green">465+</div>
+        <div class="label">Opportunities Generated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-sm mt-20">
+    <h4 class="mb-12">How AI Supercharges Cold Email</h4>
+    <ul class="bullet-list" style="font-size:16px;">
+      <li><strong>AI-written sequences</strong> &mdash; personalized to each prospect's business, not generic templates</li>
+      <li><strong>Smart scheduling</strong> &mdash; optimal send times based on timezone and industry data</li>
+      <li><strong>Auto-qualification</strong> &mdash; AI reads every reply and classifies interest level instantly</li>
+      <li><strong>Multi-campaign management</strong> &mdash; Maverick agent monitors all campaigns across clients</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 8: LINKEDIN OUTREACH -->
+<div class="slide" data-slide="8">
+<div class="slide-inner">
+  <p class="eyebrow">Multi-Channel</p>
+  <h2 class="mb-12">LinkedIn <span class="text-accent">Outreach Engine</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="mb-24">
+    <img src="assets/linkedin_outreach_dashboard.png" alt="LinkedIn outreach dashboard showing acceptance and response rates" class="proof-img">
+  </div>
+
+  <div class="grid-3 mb-24">
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-green">45.4%</div>
+        <div class="label">Connection Accept Rate</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-accent">18.3%</div>
+        <div class="label">Response Rate</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-amber">Multi</div>
+        <div class="label">Account Rotation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-sm">
+    <h4 class="mb-12">LinkedIn + Email = Compound Effect</h4>
+    <p class="text-secondary" style="font-size:16px;">Prospects who see your LinkedIn connection request AND receive an email are 3x more likely to reply. Our system coordinates both channels so timing overlaps perfectly &mdash; all managed by AI.</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 9: PODCAST LEAD GEN -->
+<div class="slide" data-slide="9">
+<div class="slide-inner">
+  <p class="eyebrow">The Trojan Horse</p>
+  <h2 class="mb-12">Podcast-Based <span class="text-accent">Lead Generation</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Invite your ideal clients as podcast guests. Build rapport during the interview. Convert after the recording.</p>
+
+  <div class="grid-2 mb-24">
+    <div>
+      <img src="assets/podcast_linkedin_content.png" alt="LinkedIn content from podcast episodes generating engagement" class="proof-img mb-16">
+      <p class="text-center text-secondary small">LinkedIn clips driving engagement</p>
+    </div>
+    <div>
+      <img src="assets/podcast_youtube_content.png" alt="YouTube content from podcast episodes with professional thumbnails" class="proof-img mb-16">
+      <p class="text-center text-secondary small">Full episodes on YouTube</p>
+    </div>
+  </div>
+
+  <div class="card card-violet" style="padding:28px;">
+    <h4 class="text-center mb-16" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">Conversion Flow</h4>
+    <div class="flow-row">
+      <div class="flow-box"><strong>Invite</strong><br>AI-curated guest list</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Record</strong><br>Strategic interview</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber"><strong>Rapport</strong><br>Off-air transition</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Discovery</strong><br>Qualify the fit</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Close</strong><br>Paid engagement</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 10: AI INBOX MANAGEMENT -->
+<div class="slide" data-slide="10">
+<div class="slide-inner">
+  <p class="eyebrow">Instant Response</p>
+  <h2 class="mb-12">AI <span class="text-accent">Inbox Management</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="mb-24">
+    <img src="assets/instant_reply_flow.png" alt="Massive n8n automation workflow powering AI-driven instant lead reply system" class="proof-img">
+    <p class="text-center text-secondary small mt-12">Live n8n workflow &mdash; AI reads every reply, classifies intent, drafts responses, and routes to the right follow-up path</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-green card-sm">
+      <h4 class="text-green mb-16">What the AI Does</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li><strong>Reads every reply</strong> across all campaigns within seconds</li>
+        <li><strong>Scores leads 1-5</strong> based on interest signals and ICP fit</li>
+        <li><strong>Classifies the reply</strong> &mdash; interested, question, objection, not now, unsubscribe</li>
+        <li><strong>Drafts a response</strong> matching the campaign tone and goal</li>
+        <li><strong>Suggests 2 meeting times</strong> + Calendly link (no qualifying questions in thread)</li>
+      </ul>
+    </div>
+    <div class="card card-amber card-sm">
+      <h4 class="text-amber mb-16">The Speed Advantage</h4>
+      <div class="stat mb-16">
+        <div class="num text-amber" style="font-size:64px;">&lt;60s</div>
+        <div class="label">Target response time</div>
+      </div>
+      <p class="text-secondary" style="font-size:15px;">Studies show that responding to a lead within 60 seconds makes you <strong>391% more likely</strong> to convert. Our AI inbox system hits this target consistently.</p>
+    </div>
+  </div>
+
+  <div class="card card-violet" style="padding:28px;">
+    <h4 class="text-center mb-16" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">AI Triage Flow</h4>
+    <div class="flow-row">
+      <div class="flow-box"><strong>Reply</strong><br>Lands in inbox</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>AI Reads</strong><br>Classify + Score</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber"><strong>Draft</strong><br>Personalized reply</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Human</strong><br>Approve + Send</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Book</strong><br>Meeting scheduled</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 11: AI SALES COACH -->
+<div class="slide" data-slide="11">
+<div class="slide-inner">
+  <p class="eyebrow">Sales Intelligence</p>
+  <h2 class="mb-12">AI <span class="text-accent">Sales Coach</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Every sales call gets analyzed against 5 proven frameworks. 120-point scoring. Actionable coaching delivered in real-time.</p>
+
+  <div class="mb-24">
+    <img src="assets/keenan_audit.png" alt="Keenan AI Sales Coach audit output showing score, gaps, and wins" class="proof-img">
+    <p class="text-center mt-12"><a href="https://drive.google.com/file/d/1W-xp2lTWbbodE9g-nFn4mt2teGp-3j4B/view" target="_blank" style="color:var(--accent); text-decoration:underline; font-size:15px;">View a full audit report example &rarr;</a></p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm">
+      <h4 class="mb-16">Frameworks Used</h4>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:var(--accent); color:#fff; font-size:13px; font-weight:700; padding:4px 12px; border-radius:6px; min-width:100px; text-align:center;">Gap Selling</span>
+          <span class="text-secondary" style="font-size:15px;">Current vs. future state gaps</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:var(--green); color:#fff; font-size:13px; font-weight:700; padding:4px 12px; border-radius:6px; min-width:100px; text-align:center;">SPIN</span>
+          <span class="text-secondary" style="font-size:15px;">Situation, Problem, Implication, Need</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:var(--amber); color:#fff; font-size:13px; font-weight:700; padding:4px 12px; border-radius:6px; min-width:100px; text-align:center;">Challenger</span>
+          <span class="text-secondary" style="font-size:15px;">Teach, tailor, take control</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:var(--blue); color:#fff; font-size:13px; font-weight:700; padding:4px 12px; border-radius:6px; min-width:100px; text-align:center;">MEDDPICC</span>
+          <span class="text-secondary" style="font-size:15px;">Enterprise qualification</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="background:var(--cyan); color:#fff; font-size:13px; font-weight:700; padding:4px 12px; border-radius:6px; min-width:100px; text-align:center;">Hormozi</span>
+          <span class="text-secondary" style="font-size:15px;">Value equation + conviction</span>
+        </div>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-16">What You Get After Every Call</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>120-point score</strong> across all 5 frameworks</li>
+        <li><strong>Top 3 wins</strong> &mdash; what went well</li>
+        <li><strong>Top 3 misses</strong> &mdash; where you left money on the table</li>
+        <li><strong>Rewrite suggestions</strong> &mdash; exact phrases to use next time</li>
+        <li><strong>Deal risk assessment</strong> &mdash; is this deal real or wishful thinking?</li>
+        <li><strong>Google Doc report</strong> &mdash; shareable with your team</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <p class="playfair-quote" style="font-size:20px; margin-bottom:8px;">"Keenan analyzes every call your team takes and turns mistakes into coaching moments &mdash; automatically"</p>
+    <p class="small text-secondary">Named after the author of Gap Selling</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 12: CONTENT REPURPOSING -->
+<div class="slide" data-slide="12">
+<div class="slide-inner">
+  <p class="eyebrow">Content Engine</p>
+  <h2 class="mb-12">AI-Generated <span class="text-accent">Content Ideas &amp; Scripts</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Every morning, the Echo agent researches your industry and delivers ready-to-publish content with hooks, angles, and virality scores</p>
+
+  <div class="mb-24">
+    <img src="assets/echo_content_card.png" alt="Echo AI content engine generating a LinkedIn post with hook, angle, virality score, and action buttons" class="proof-img">
+    <p class="text-center text-secondary small mt-12">Real output from the Echo content engine &mdash; delivered to Slack every morning</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-sm">
+      <h4 class="mb-12">What Echo Delivers Daily</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li><strong>Content ideas</strong> based on your ICP's pain points and industry trends</li>
+        <li><strong>Full scripts</strong> with hooks, angles, and CTAs ready to post</li>
+        <li><strong>Virality &amp; lead gen scores</strong> so you know what to prioritize</li>
+        <li><strong>One-click generation</strong> &mdash; hit "Generate Post" and it writes the full piece</li>
+        <li><strong>Multi-format</strong> &mdash; LinkedIn, Twitter, newsletter, short-form video scripts</li>
+        <li><strong>Board integration</strong> &mdash; add to your content calendar with one click</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Why This Matters for SalesDep.ai</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>Position Olena as the authority</strong> in AI sales automation</li>
+        <li><strong>Repurpose Demo Day talks</strong> into ongoing LinkedIn content</li>
+        <li><strong>Consistent publishing</strong> without Olena writing a single word</li>
+        <li><strong>Lead gen built in</strong> &mdash; every post is designed to drive inbound conversations</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 13: YOUTUBE LEAD AUTOMATION -->
+<div class="slide" data-slide="13">
+<div class="slide-inner">
+  <p class="eyebrow">Inbound Automation</p>
+  <h2 class="mb-12">AI Lead <span class="text-accent">Response Engine</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">When a lead comes in from any source &mdash; form, chatbot, website &mdash; a 36-node AI workflow qualifies, routes, and responds in under 4 minutes</p>
+
+  <div class="mb-24">
+    <img src="assets/lead_response_workflow.jpg" alt="36-node n8n automation workflow showing lead qualification, AI routing, and multi-path follow-up" class="proof-img">
+    <p class="text-center text-secondary small mt-12">Live n8n workflow &mdash; 36 nodes, 8 integrations, fully autonomous</p>
+  </div>
+
+  <div class="card card-violet mb-24" style="padding:32px;">
+    <h4 class="text-center mb-20" style="font-size:16px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);">How It Works</h4>
+    <div class="flow-row mb-16">
+      <div class="flow-box"><strong>Lead In</strong><br>Form, chatbot, or site</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>Ack Email</strong><br>Instant response</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box"><strong>AI Qualify</strong><br>Claude analyzes</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green"><strong>Route</strong><br>3 paths</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box-green" style="flex:1;"><strong>Qualified</strong><br>Personalized email + book call</div>
+      <div class="flow-box-amber" style="flex:1;"><strong>Needs Info</strong><br>AI asks follow-up questions</div>
+      <div class="flow-box" style="flex:1; background:rgba(239,68,68,0.1);"><strong>Not a Fit</strong><br>Redirect to free community</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-green">8</div>
+        <div class="label">Integrations<br>Forms, Gmail, CRM, Sheets, Email Marketing, Slack, Claude, n8n</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-accent">&lt;4m</div>
+        <div class="label">End-to-End<br>From submission to personalized response</div>
+      </div>
+    </div>
+    <div class="card card-sm text-center">
+      <div class="stat">
+        <div class="num text-amber">Chatbot</div>
+        <div class="label">Ready<br>Same engine can power on-site chatbots for SalesDep.ai clients</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 14: DAILY OPERATIONS -->
+<div class="slide" data-slide="14">
+<div class="slide-inner">
+  <p class="eyebrow">Ops Automation</p>
+  <h2 class="mb-12">The Daily <span class="text-accent">Rhythm</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Every morning, AI delivers everything you need. No manual checks. No missed updates.</p>
+
+  <div class="timeline mb-24">
+    <div class="timeline-item">
+      <h4><span class="text-accent">8:00 AM</span> &mdash; Morning Brief</h4>
+      <p>Pulse agent delivers a daily briefing: pipeline status, deals at risk, team activity, industry intel. Straight to Slack.</p>
+    </div>
+    <div class="timeline-item">
+      <h4><span class="text-accent">8:15 AM</span> &mdash; Industry Intelligence</h4>
+      <p>AI scans news, competitor activity, and market signals. Surfaces what matters, ignores the noise.</p>
+    </div>
+    <div class="timeline-item">
+      <h4><span class="text-amber">9:00 AM</span> &mdash; Task Reminders</h4>
+      <p>Every team member gets their daily task list with board links. Jordan gets the full overview across all team members.</p>
+    </div>
+    <div class="timeline-item">
+      <h4><span class="text-green">Every 15 min</span> &mdash; Fleet Health Check</h4>
+      <p>Cooper audits all 18 agents. Checks for stale data, failed tasks, and performance drift. Auto-recovery on failure.</p>
+    </div>
+    <div class="timeline-item">
+      <h4><span class="text-green">Real-time</span> &mdash; Lead Alerts</h4>
+      <p>Qualified leads trigger instant Telegram alerts to the CEO. Classification, lead score, and ClickUp link included.</p>
+    </div>
+    <div class="timeline-item">
+      <h4><span class="text-blue">End of Day</span> &mdash; Performance Report</h4>
+      <p>Hubstaff integration tracks team hours and activity. Daily report posted to Slack for full transparency.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 15: MISSION CONTROL -->
+<div class="slide" data-slide="15">
+<div class="slide-inner">
+  <p class="eyebrow">Command Center</p>
+  <h2 class="mb-12"><span class="text-accent">Mission Control</span> Dashboard</h2>
+  <div class="section-divider"></div>
+
+  <div class="mb-24">
+    <img src="assets/mission_control.jpg" alt="Mission Control dashboard showing project status, tasks, and team activity" class="proof-img">
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-sm">
+      <h4 class="mb-12">Single Pane of Glass</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>All agents</strong> visible with live status indicators</li>
+        <li><strong>Task boards</strong> per team member with drag-and-drop</li>
+        <li><strong>Campaign metrics</strong> across all clients in real-time</li>
+        <li><strong>Alert history</strong> with severity levels and resolution status</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">Built for Speed</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>Password-protected</strong> &mdash; each client gets their own view</li>
+        <li><strong>Mobile responsive</strong> &mdash; check status from anywhere</li>
+        <li><strong>Live data</strong> &mdash; pulls from ClickUp, Instantly, HeyReach, Hubstaff</li>
+        <li><strong>One-click actions</strong> &mdash; pause campaigns, reassign tasks, escalate</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 16: NEWSLETTER AUTOMATION -->
+<div class="slide" data-slide="16">
+<div class="slide-inner">
+  <p class="eyebrow">Newsletter Automation</p>
+  <h2 class="mb-12">Automated <span class="text-accent">Newsletter Engine</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">Keep your database warm with consistent, valuable content &mdash; fully automated</p>
+
+  <div class="mb-24">
+    <img src="assets/newsletter_workflow.png" alt="Newsletter automation workflow showing automated email sequences" class="proof-img">
+    <p class="text-center text-secondary small mt-12">ActiveCampaign automation &mdash; segmented sequences running on autopilot</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-sm">
+      <h4 class="mb-12">What Gets Automated</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li><strong>Weekly newsletter</strong> with AI-generated content tailored to your ICP</li>
+        <li><strong>Segmented sequences</strong> &mdash; different tracks for different buyer stages</li>
+        <li><strong>Re-engagement campaigns</strong> for leads that go cold</li>
+        <li><strong>Hot lead alerts</strong> when engagement spikes &mdash; auto-routed back to sales</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-12">For SalesDep.ai</h4>
+      <p class="text-secondary" style="font-size:16px; margin-bottom:12px;">Your 17,000 leads are a goldmine sitting untouched. A newsletter engine would:</p>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>Warm up your database</strong> with AI sales insights and case studies</li>
+        <li><strong>Surface ready buyers</strong> based on open and click signals</li>
+        <li><strong>Drive demo bookings</strong> with smart CTAs timed to engagement</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 17: CASE STUDY — CREATESTUDIO -->
+<div class="slide" data-slide="17">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">CreateStudio</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">AI Explainer Video Creator</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Created a sales funnel that generated $3M+ in revenue, increasing enterprise value and enabling a multiple 7-figure exit&rdquo;</p>
+  </div>
+
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=BExJ1GF4SOU" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/BExJ1GF4SOU/maxresdefault.jpg" alt="CreateStudio case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li>Increased revenue by <strong>$600,000/month</strong> in under 12 months</li>
+    <li>Generated <strong>$100,000 from stage</strong> and <strong>$336,000 total</strong> from a single campaign</li>
+    <li>Led the offer, ad, and funnel rebuild that enabled a <strong>7-figure exit</strong></li>
+  </ul>
+
+  <div class="img-row">
+    <img src="assets/createstudio_3.png" alt="CreateStudio $100K weekend" class="proof-img">
+    <img src="assets/createstudio_5.png" alt="CreateStudio $336K total revenue" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 18: CASE STUDY — HELLOCUSTOM -->
+<div class="slide" data-slide="18">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">HelloCustom</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">AI Tool for Etsy Sellers</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;$90,000 generated within 45 days &mdash; before the product was even built&rdquo;</p>
+  </div>
+
+  <ul class="bullet-list mb-32">
+    <li>Masterminded a pre-sale campaign to existing customer base</li>
+    <li>Generated <strong>$90,000+ in pre-sales</strong> before the product was developed</li>
+    <li>Validated product-market fit with real revenue, not surveys</li>
+    <li>Proved the offer sold &mdash; then built the product</li>
+  </ul>
+
+  <div>
+    <img src="assets/hellocustom_0.png" alt="HelloCustom $90K presale proof" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 19: CASE STUDY — MEDIAPLACE AI -->
+<div class="slide" data-slide="19">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">MediaPlace AI</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">All-in-One AI Media Manager</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Worked directly with the founder to take a product from idea to multi-6-figure SaaS &mdash; one of the highest-rated softwares on AppSumo with 500+ five-star TrustPilot reviews&rdquo;</p>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li>Launched go-to-market strategy that generated <strong>multiple 6-figures</strong></li>
+    <li>Achieved <strong>#1 rated software</strong> on AppSumo in its category</li>
+    <li>Built <strong>500+ five-star reviews</strong> on TrustPilot</li>
+    <li>Created complete sales funnel, marketing campaigns, and sales assets</li>
+  </ul>
+
+  <div class="img-row">
+    <img src="assets/mediaplace_0.png" alt="MediaPlace proof 1" class="proof-img">
+    <img src="assets/mediaplace_3.png" alt="MediaPlace proof 2" class="proof-img">
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 20: CASE STUDY — RIPPLE -->
+<div class="slide" data-slide="20">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">Ripple</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">B2B AI Platform</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Bombarded with high-quality leads from day one. Three sales closed in the first 60 days &mdash; they no longer need to rely on investors to fund growth.&rdquo;</p>
+  </div>
+
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=aY_y9TyVK2Q" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/aY_y9TyVK2Q/maxresdefault.jpg" alt="Ripple case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li><strong>3 closed deals in the first 60 days</strong> &mdash; pipeline that converts, not just vanity metrics</li>
+    <li>Allowed them to <strong>break free from investor dependency</strong> &mdash; revenue-funded growth</li>
+    <li>Installed a scalable AI growth engine that continues generating leads on autopilot</li>
+    <li>Podcast + outbound + AI follow-up = the same motion we are proposing for SalesDep.ai</li>
+  </ul>
+</div>
+</div>
+
+<!-- SLIDE 21: CASE STUDY — GOLDPHISH -->
+<div class="slide" data-slide="21">
+<div class="slide-inner">
+  <p class="eyebrow">Case Study</p>
+  <h2 class="mb-4">Goldphish</h2>
+  <p class="text-secondary mb-24" style="font-size:20px; text-align:center;">Cybersecurity Awareness Training Platform</p>
+
+  <div class="quote-card mb-24">
+    <p>&ldquo;Flooded with qualified leads daily. Installed a scalable growth engine that enabled predictable pipeline for channel partner acquisition.&rdquo;</p>
+  </div>
+
+  <div class="mb-24">
+    <a href="https://www.youtube.com/watch?v=zbu8fe9pvrg" target="_blank" style="display:block; position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--card-border);">
+      <img src="https://img.youtube.com/vi/zbu8fe9pvrg/maxresdefault.jpg" alt="Goldphish case study video" style="width:100%; display:block;">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25);">
+        <div style="width:64px; height:64px; background:rgba(124,58,237,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:28px; color:#fff; margin-left:4px;">&#9654;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <ul class="bullet-list mb-24">
+    <li>UK-based B2B SaaS &mdash; selling to MSPs, cybersecurity consultants, and enterprises</li>
+    <li><strong>Dramatically increased lead flow</strong> volume and quality</li>
+    <li>Installed a <strong>scalable growth engine</strong> into the business</li>
+    <li>Used podcast + outbound combination to build authority in the cybersecurity space</li>
+  </ul>
+</div>
+</div>
+
+<!-- SLIDE 22: THE SALESDEP OPPORTUNITY -->
+<div class="slide" data-slide="22">
+<div class="slide-inner">
+  <p class="eyebrow">The Opportunity</p>
+  <h2 class="mb-12">Why <span class="text-accent">SalesDep.ai</span> Is Built to Scale</h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">You have a product that works and a close rate most companies would kill for. The only bottleneck is pipeline volume.</p>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-red card-sm">
+      <h4 class="text-red mb-16">The Constraint</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>Top-of-funnel gap</strong> &mdash; not enough qualified conversations reaching Olena</li>
+        <li><strong>Cold outreach stalled</strong> &mdash; previous campaigns generated opens but zero meetings</li>
+        <li><strong>Untapped database</strong> &mdash; thousands of leads sitting unworked</li>
+        <li><strong>Solo sales</strong> &mdash; only one person closing, no AI-assisted pipeline feeding the process</li>
+      </ul>
+    </div>
+    <div class="card card-green card-sm">
+      <h4 class="text-green mb-16">The Unfair Advantages</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li><strong>40% close rate</strong> &mdash; every new meeting has nearly a coin-flip chance of converting</li>
+        <li><strong>$7,000 LTV</strong> &mdash; strong unit economics that justify aggressive acquisition spend</li>
+        <li><strong>AI-native credibility</strong> &mdash; you sell AI tools, making you the perfect case study</li>
+        <li><strong>Global reach</strong> &mdash; 180 languages, no geographic ceiling on growth</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <p class="text-secondary" style="font-size:18px; max-width:650px; margin:0 auto;">With a 40% close rate, you only need <strong class="text-green">25 qualified meetings per month</strong> to hit 10 new customers. The math is simple &mdash; the pipeline is the only variable.</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 23: TAM RESEARCH -->
+<div class="slide" data-slide="23">
+<div class="slide-inner">
+  <p class="eyebrow">Your Market</p>
+  <h2 class="mb-12">SalesDep.ai's <span class="text-accent">Total Addressable Market</span></h2>
+  <div class="section-divider"></div>
+  <p class="subtitle mb-32" style="max-width:700px; margin-left:auto; margin-right:auto;">We already mapped your ICP. Here are the people waiting to hear from you.</p>
+
+  <div class="mb-24">
+    <img src="assets/apollo_secondary_market.png" alt="Apollo.io showing decision makers matching SalesDep ICP" class="proof-img" style="border-radius:12px; border:1px solid var(--card-border);">
+  </div>
+
+  <div class="card card-violet mb-24" style="padding:32px;">
+    <div class="flow-row mb-16" style="font-size:15px;">
+      <div class="flow-box" style="padding:16px;"><strong style="font-size:26px; display:block; margin-bottom:4px;">25,900</strong>Decision<br>Makers</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box" style="padding:16px;"><strong style="font-size:26px; display:block; margin-bottom:4px;">3%</strong>Reply<br>Rate</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber" style="padding:16px;"><strong style="font-size:26px; display:block; margin-bottom:4px;">466</strong>Qualified<br>Leads</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-amber" style="padding:16px;"><strong style="font-size:26px; display:block; margin-bottom:4px;">20%</strong>Close<br>Rate</div>
+      <div class="flow-arrow">&#x2192;</div>
+      <div class="flow-box-green" style="padding:16px;"><strong style="font-size:26px; display:block; margin-bottom:4px;">93</strong>New<br>Customers</div>
+    </div>
+    <div class="text-center" style="margin-top:12px;">
+      <span class="text-secondary" style="font-size:18px;">93 customers &times; $5,000 LTV =</span><br>
+      <span class="text-green" style="font-size:42px; font-weight:800;">$466,200</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 24: WHAT THIS MEANS FOR SALESDEP -->
+<div class="slide" data-slide="24">
+<div class="slide-inner">
+  <p class="eyebrow">For SalesDep.ai</p>
+  <h2 class="mb-12">What This <span class="text-accent">Looks Like</span> for You</h2>
+  <div class="section-divider"></div>
+
+  <div class="grid-2 mb-24">
+    <div class="card card-green card-sm">
+      <h4 class="text-green mb-16">What We Would Deploy</h4>
+      <ul class="bullet-list green" style="font-size:16px;">
+        <li><strong>Activate your 17K leads</strong> &mdash; AI scores, segments, and works your existing database automatically</li>
+        <li><strong>Multi-channel outreach</strong> &mdash; email + LinkedIn targeting SMBs and logistics companies</li>
+        <li><strong>Podcast strategy</strong> &mdash; invite sales leaders and agency founders, build authority, convert off-air</li>
+        <li><strong>AI inbox management</strong> &mdash; every reply triaged and responded to in under 60 seconds</li>
+        <li><strong>Content engine</strong> &mdash; repurpose your Demo Day, talks, and LinkedIn posts into multi-format assets</li>
+        <li><strong>Sales coaching</strong> &mdash; protect and improve your exceptional 40% close rate as you scale</li>
+      </ul>
+    </div>
+    <div class="card card-sm">
+      <h4 class="mb-16">Your Advantages</h4>
+      <ul class="bullet-list" style="font-size:16px;">
+        <li><strong>40% close rate</strong> &mdash; you don't have a closing problem, you have a pipeline problem</li>
+        <li><strong>17,000 leads</strong> &mdash; a massive database sitting unworked and ready to activate</li>
+        <li><strong>AI-native product</strong> &mdash; your credibility in this space is automatic</li>
+        <li><strong>$7K LTV per client</strong> &mdash; strong unit economics for outbound investment</li>
+        <li><strong>180 languages</strong> &mdash; global expansion potential with zero delivery bottleneck</li>
+        <li><strong>Demo Day momentum</strong> &mdash; accelerator credibility compounds with outbound volume</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="glow-card">
+    <h3 style="font-size:32px; margin-bottom:12px;">The Goal: <span class="text-green">$600K ARR</span></h3>
+    <p class="text-secondary" style="font-size:18px; max-width:600px; margin:0 auto;">You close 40% of everyone you talk to. We fill your calendar with qualified conversations. AI handles the grind while you focus on demos and closes.</p>
+  </div>
+</div>
+</div>
+
+<!-- SLIDE 25: CLOSE -->
+<div class="slide center-v" data-slide="25">
+<div class="slide-inner text-center" style="justify-content:center; min-height:100%; display:flex; flex-direction:column;">
+  <p class="eyebrow mb-24" style="font-size:15px; letter-spacing:0.2em;">NEXT STEPS</p>
+  <h1 style="font-size:48px; margin-bottom:24px;">Let's Build Your <span class="text-accent">Growth Engine</span></h1>
+  <p class="subtitle" style="max-width:600px; margin:0 auto 40px;">Everything you've seen is live and running for our clients today. The question is whether we can do the same for SalesDep.ai.</p>
+
+  <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-bottom:40px;">
+    <div class="card card-sm card-violet" style="min-width:200px;">
+      <div style="font-size:28px; margin-bottom:8px;">1</div>
+      <h4 style="font-size:18px; margin-bottom:4px;">Discovery Deep-Dive</h4>
+      <p class="text-secondary" style="font-size:14px;">Map your ICP, TAM, and channels</p>
+    </div>
+    <div class="card card-sm card-green" style="min-width:200px;">
+      <div style="font-size:28px; margin-bottom:8px;">2</div>
+      <h4 style="font-size:18px; margin-bottom:4px;">Custom Growth Plan</h4>
+      <p class="text-secondary" style="font-size:14px;">Your pipeline math, your guarantee</p>
+    </div>
+    <div class="card card-sm card-amber" style="min-width:200px;">
+      <div style="font-size:28px; margin-bottom:8px;">3</div>
+      <h4 style="font-size:18px; margin-bottom:4px;">Launch in 14 Days</h4>
+      <p class="text-secondary" style="font-size:14px;">Campaigns live within 2 weeks</p>
+    </div>
+  </div>
+
+  <p class="playfair-quote" style="max-width:550px; margin:0 auto 20px; font-size:20px;">jordan@dopaminedigital.io</p>
+  <p class="small muted">Dopamine Digital &mdash; February 2026</p>
+</div>
+</div>
+
+</div><!-- end deck -->
+
+<div class="nav-bar" id="navBar"></div>
+<div class="nav-counter" id="navCounter">1 / 25</div>
+
+<script>
+(function() {
+  var deck = document.getElementById('deck');
+  var slides = deck.querySelectorAll('.slide');
+  var navBar = document.getElementById('navBar');
+  var navCounter = document.getElementById('navCounter');
+  var totalSlides = slides.length;
+  var currentSlide = 1;
+
+  for (var i = 1; i <= totalSlides; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+    dot.setAttribute('data-slide', i);
+    (function(n) {
+      dot.addEventListener('click', function() { goToSlide(n); });
+    })(i);
+    navBar.appendChild(dot);
+  }
+
+  function goToSlide(n) {
+    if (n < 1 || n > totalSlides) return;
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].classList.remove('active');
+    }
+    var dots = navBar.querySelectorAll('.nav-dot');
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.remove('active');
+    }
+    currentSlide = n;
+    slides[currentSlide - 1].classList.add('active');
+    slides[currentSlide - 1].scrollTop = 0;
+    dots[currentSlide - 1].classList.add('active');
+    navCounter.textContent = currentSlide + ' / ' + totalSlides;
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prevSlide();
+    }
+  });
+
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
